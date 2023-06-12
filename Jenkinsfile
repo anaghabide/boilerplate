@@ -1,7 +1,7 @@
 pipeline {
   agent any
   tools {
-    maven "maven"
+    gradle "gradle"
     jdk "jdk11"
   }
   stages {
@@ -17,7 +17,7 @@ pipeline {
           ])
         sh 'sed -i \'s/java/openjdk:8/g\' Dockerfile'
         //sh 'sed -i \'s/8080/8081/g\' Dockerfile'
-        sh 'mvn clean install'
+        sh 'gradle clean build --refresh-dependencies'
       }
     }
     stage('Code Test') {
