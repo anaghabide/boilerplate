@@ -15,7 +15,7 @@ pipeline {
               'https://github.com/anaghabide/boilerplate'
             ]
           ])
-        sh 'sed -i \'s/java/openjdk:8/g\' Dockerfile'
+        sh 'sed -i \'s/java/openjdk:11/g\' Dockerfile'
         //sh 'sed -i \'s/8080/8081/g\' Dockerfile'
         sh 'gradle clean build --refresh-dependencies'
       }
