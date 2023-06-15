@@ -2,7 +2,7 @@ pipeline {
   agent any
   tools {
     gradle "gradle"
-    jdk "jdk11"
+    jdk "OracleJDK11"
   }
   stages {
     stage('Code Build') {
@@ -22,34 +22,34 @@ pipeline {
     }
     stage('Code Test') {
       steps {
-        sh 'mvn test'
+        sh 'gradle test'
       }
     }
     stage('Code Ananlysis') {
       steps {
-        sh 'mvn checkstyle:checkstyle'
+        sh 'gradle checkstyle:checkstyle'
       }
     }
     stage('Docker Build') {
       steps {
         script {
-          sh 'docker build -t devops-image:latest .'
+          sh 'docker build -t boilerplate:test .'
 
         }
       }
     }
-    stage('Docker Login') {
-      steps {
-        sh 'echo "dckr_pat_v3zT_M7zyxDmV-iAuK3BnWgCQME" | docker login -u "smitakhedkar30"'
-        sh 'docker tag devops-training-repo:latest smitakhedkar30/devopstrainingrepo:latest'
-        sh 'docker push smitakhedkar30/devops-training-repo:latest'
+      stage('Docker Login') {
+       steps {
+        sh 'echo "dckr_pat_5dfZZ4hwyLnyX-kiEZw3ZHIcMPo" | docker login -u "anaghabide" -p "dckr_pat_5dfZZ4hwyLnyX-kiEZw3ZHIcMPo"'
+        sh 'docker tag boilerplate:test anaghabide/boilerplate-repo:test'
+        sh 'docker push anaghabide/boilerplate-repo:test'
+       }
       }
-    }
-    stage('Run Docker Container') {
-      steps {
-        sh "docker run -d -p 8082:8080 smitakhedkar30/devops-training-repoe"
+      stage('Run Docker Container') {
+       steps {
+        sh "docker run -d -p 8082:8080 anaghabide/boilerplate-repo"
 
+       }
       }
-    }
   }
 }
